@@ -477,9 +477,8 @@ template<> struct is_arithmetic<half> { enum { value = true }; };
 
 }  // end namespace Eigen
 
-namespace std {
 template<>
-struct numeric_limits<Eigen::half> {
+struct std::numeric_limits<Eigen::half> {
   static const bool is_specialized = true;
   static const bool is_signed = true;
   static const bool is_integer = false;
@@ -514,7 +513,6 @@ struct numeric_limits<Eigen::half> {
   static Eigen::half signaling_NaN() { return Eigen::half_impl::raw_uint16_to_half(0x7e00); }
   static Eigen::half denorm_min() { return Eigen::half_impl::raw_uint16_to_half(0x1); }
 };
-}
 
 namespace Eigen {
 
@@ -577,18 +575,16 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Eigen::half ceilh(const Eigen::half& a) {
   return Eigen::half(::ceilf(float(a)));
 }
 
-namespace std {
 
 #if __cplusplus > 199711L
 template <>
-struct hash<Eigen::half> {
+struct std::hash<Eigen::half> {
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::size_t operator()(const Eigen::half& a) const {
     return static_cast<std::size_t>(a.x);
   }
 };
 #endif
 
-} // end namespace std
 
 
 // Add the missing shfl_xor intrinsic
